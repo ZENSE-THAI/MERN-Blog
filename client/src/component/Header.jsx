@@ -12,7 +12,7 @@ export const Header = () => {
 
   return (
     <Navbar className='border-b-2'>
-      <Navbar.Brand>
+      <Navbar.Brand  as='div'>
         <Link to='/' className='uppercase self-center whitespace-nowrap text-md sm:text-xl font-semibold dark:text-white'>
         <span className=' px-2 py-1 bg-gradient-to-tr from-sky-500 to-indigo-500 rounded-lg text-white'>Zense</span>
         Blogs
@@ -42,13 +42,13 @@ export const Header = () => {
         <Navbar.Toggle></Navbar.Toggle>
       </div>
         <Navbar.Collapse>
-            <Navbar.Link active={path === '/'} as={'div'}>
+            <Navbar.Link active={path === '/'}  as='div'>
               <Link to='/'>Home</Link>
             </Navbar.Link>
-            <Navbar.Link active={path === '/about'} as={'div'}>
+            <Navbar.Link active={path === '/about'}  as='div'>
               <Link to='/about'>About</Link>
             </Navbar.Link>
-            <Navbar.Link active={path === '/projects'} as={'div'}>
+            <Navbar.Link active={path === '/projects'}  as='div'>
               <Link to='/projects'>Projects</Link>
             </Navbar.Link>
         </Navbar.Collapse>
