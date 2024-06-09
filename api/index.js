@@ -14,6 +14,8 @@ mongoose
     )
 
 const app = express();
+app.use(express.json());
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
@@ -21,4 +23,4 @@ app.listen(PORT, () => {
 });
 
 app.use('/api/user', userRoutes); 
-app.use('api/auth',authRoute)
+app.use('/api/auth',authRoute)
