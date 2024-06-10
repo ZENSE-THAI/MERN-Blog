@@ -11,7 +11,7 @@ export const Header = () => {
   const path = useLocation().pathname;
 
   return (
-    <Navbar className='border-b-2'>
+    <Navbar className='border-b-2 sticky top-0 z-50'>
       <Navbar.Brand  as='div'>
         <Link to='/' className='uppercase self-center whitespace-nowrap text-md sm:text-xl font-semibold dark:text-white'>
         <span className=' px-2 py-1 bg-gradient-to-tr from-sky-500 to-indigo-500 rounded-lg text-white'>Zense</span>
@@ -41,7 +41,7 @@ export const Header = () => {
         </Link>
         <Navbar.Toggle></Navbar.Toggle>
       </div>
-        <Navbar.Collapse>
+        <Navbar.Collapse className=''>
             <Navbar.Link active={path === '/'}  as='div'>
               <Link to='/'>Home</Link>
             </Navbar.Link>
