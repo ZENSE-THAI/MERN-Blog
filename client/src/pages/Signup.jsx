@@ -20,14 +20,18 @@ export const Signup = () => {
       </div>
       {/* right */}
       <div className="flex-1 mt-5 ">
-        <form action="">
-          <div className="flex flex-col gap-2">
+        <form action=""  className="flex flex-col gap-2">
+          <div>
             <Label value='Your FullName'/>
-            <FloatingLabel variant="outlined" label="FullName" disabled={false} />
+            <FloatingLabel variant="outlined" label="FullName" id='fullname' disabled={false} />
+          </div>
+          <div>
             <Label value='Your E-mail'/>
-            <FloatingLabel variant="outlined" label="E-mail" disabled={false} />
+            <FloatingLabel variant="outlined" label="E-mail" id='email' disabled={false} />
+          </div>
+          <div>
             <Label value='Your Password'/>
-            <FloatingLabel variant="outlined" label="Password" disabled={false} />
+            <FloatingLabel variant="outlined" type='password' label="Password" id='password' disabled={false} />
           </div>
           <Button gradientDuoTone="purpleToBlue" className='w-full' type='submit'>Sign Up</Button>
         </form>
