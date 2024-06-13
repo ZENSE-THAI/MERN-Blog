@@ -39,6 +39,11 @@ export const Header = () => {
             Sign In
           </Button>
         </Link>
+        {/* <Link to='/sign-up' className=''>
+          <Button className="font-semibold" color="blue">
+            Sign Up
+          </Button>
+        </Link> */}
         <Navbar.Toggle></Navbar.Toggle>
       </div>
         <Navbar.Collapse className=''>
