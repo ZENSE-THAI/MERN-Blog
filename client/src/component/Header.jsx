@@ -12,6 +12,7 @@ export const Header = () => {
 
   return (
     <Navbar className='border-b-2 sticky top-0 z-50'>
+      {/* sticky top-0 z-50 */}
       <Navbar.Brand  as='div'>
         <Link to='/' className='uppercase self-center whitespace-nowrap text-md sm:text-xl font-semibold dark:text-white'>
         <span className=' px-2 py-1 bg-gradient-to-tr from-sky-500 to-indigo-500 rounded-lg text-white'>Zense</span>
@@ -32,7 +33,7 @@ export const Header = () => {
       </Button>
       <div className='flex gap-2 items-center md:order-2'>
         <Button className="w-12 h-10 inline"  color='gray' pill>
-          <FaMoon/>
+          <FaMoon size={10}/>
         </Button>
         <Link to='/sign-in' className=''>
           <Button className="font-semibold" color="blue">

@@ -9,6 +9,7 @@ import { Signin } from './pages/Signin.jsx'
 import { Signup } from './pages/Signup.jsx'
 import { Dashboard } from './pages/Dashboard.jsx'
 import { Header } from './component/Header.jsx';
+import { FooterComponent } from './component/Footer.jsx';
 
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
           <Route path='/sign-in' element={<Signin/>}></Route>
           <Route path='/sign-up' element={<Signup/>}></Route>
         </Routes>
+      <FooterComponent/>
       </BrowserRouter>
     </>
   )
