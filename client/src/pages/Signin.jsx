@@ -4,6 +4,7 @@ import { FloatingLabel,Button, Alert, Spinner} from 'flowbite-react'
 import { HiInformationCircle } from "react-icons/hi";
 import { useDispatch , useSelector } from 'react-redux';
 import { signInStart , signInSuccess , signInFailure } from '../redux/user/userSlice';
+import { OAuth } from '../component/OAuth';
 
 
 export const Signin = () => {
@@ -75,6 +76,7 @@ export const Signin = () => {
               ) : 'Sign In'
             }
           </Button>
+          <OAuth/>
         </form>
         <div className="">
           <span>Don&apos;t have an account?</span>

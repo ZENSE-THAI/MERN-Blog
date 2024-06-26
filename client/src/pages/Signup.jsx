@@ -2,6 +2,7 @@ import { React, useState } from 'react'
 import {  Link , useNavigate} from 'react-router-dom'
 import { FloatingLabel,Label,Button, Alert, Spinner} from 'flowbite-react'
 import { HiInformationCircle } from "react-icons/hi";
+import { OAuth } from '../component/OAuth';
 
 
 export const Signup = () => {
@@ -58,8 +59,8 @@ export const Signup = () => {
       <div className="flex-1 mt-5 ">
         <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
           <div>
-            <Label value='Your UserName'/>
-            <FloatingLabel variant="outlined" label="UserName" id='username' disabled={false} onChange={handleChange} autoComplete='true'/>
+            <Label value='Your Username'/>
+            <FloatingLabel variant="outlined" label="Username" id='username' disabled={false} onChange={handleChange} autoComplete='true'/>
           </div>
           <div>
             <Label value='Your E-mail'/>
@@ -79,6 +80,7 @@ export const Signup = () => {
               ) : 'Sign Up'
             }
           </Button>
+          <OAuth/>
         </form>
         <div className="">
           <span>Have an account?</span>
