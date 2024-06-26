@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button } from 'flowbite-react';
 import { FcGoogle } from "react-icons/fc";
 import { GoogleAuthProvider, signInWithPopup, getAuth } from 'firebase/auth'; 

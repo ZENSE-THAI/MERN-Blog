@@ -1,9 +1,10 @@
-import { React  } from 'react'
 import { Navbar ,Button,TextInput, Dropdown, Avatar} from "flowbite-react";
 import { Link , useLocation} from "react-router-dom";
-import { FaMoon } from "react-icons/fa";
+import { FaMoon} from "react-icons/fa";
+import { FaSun } from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
-import {  useSelector } from 'react-redux';
+import {  useSelector , useDispatch } from 'react-redux';
+import { toggleTheme } from '../redux/theme/themeSlice.js';
 
 
 
@@ -11,7 +12,12 @@ export const Header = () => {
 
   const path = useLocation().pathname;
   const currentUser = useSelector(state => state.user.currentUser);
+  const dispatch = useDispatch();
+  const { theme } = useSelector(state => state.theme);
 
+  const handleToggleTheme = () => {
+    dispatch(toggleTheme()); // เรียกใช้ฟังก์ชัน toggleTheme() ก่อน
+  };
   return (
     <Navbar className='border-b-2 sticky top-0 z-50'>
       {/* sticky top-0 z-50 */}
@@ -34,8 +40,8 @@ export const Header = () => {
         <IoSearch/>
       </Button>
       <div className='flex gap-2 items-center md:order-2'>
-        <Button className="w-12 h-10 inline"  color='gray' pill>
-          <FaMoon size={10}/>
+        <Button className="w-12 h-10 inline"  color='gray' pill onClick={handleToggleTheme}>
+        {theme === 'light' ? <FaMoon size={10} /> : <FaSun size={10} />}
         </Button>
 
 
