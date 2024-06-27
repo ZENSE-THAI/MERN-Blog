@@ -22,10 +22,10 @@ export default function App() {
           <Route path='/sign-in' element={<Signin/>}></Route>
           <Route path='/sign-up' element={<Signup/>}></Route>
           <Route path='/about' element={<About/>}></Route>
+          <Route path='/projects' element={< Projects/>}></Route>
           <Route element={<PrivateRoute/>}>
               <Route path='/dashboard' element={<Dashboard/>}></Route>
           </Route>
-          <Route path='/projects' element={< Projects/>}></Route>
         </Routes>
       <FooterComponent/>
       </BrowserRouter>
