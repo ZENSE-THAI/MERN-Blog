@@ -60,11 +60,11 @@ export const Signup = () => {
         <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
           <div>
             <Label value='Your Username'/>
-            <FloatingLabel variant="outlined" label="Username" id='username' disabled={false} onChange={handleChange} autoComplete='true'/>
+            <FloatingLabel variant="outlined" type='text' label="Username" id='username' disabled={false} onChange={handleChange} autoComplete='true'/>
           </div>
           <div>
             <Label value='Your E-mail'/>
-            <FloatingLabel variant="outlined" label="E-mail" id='email' disabled={false} onChange={handleChange} autoComplete='true'/>
+            <FloatingLabel variant="outlined" type='email' label="E-mail" id='email' disabled={false} onChange={handleChange} autoComplete='true'/>
           </div>
           <div>
             <Label value='Your Password'/>
