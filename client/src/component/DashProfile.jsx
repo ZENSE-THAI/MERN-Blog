@@ -176,23 +176,6 @@ export const DashProfile = () => {
 
 
 
-    // const handleDeleteUser = async () => {
-    //     setShowModal(false);
-    //     try {
-    //       dispatch(deleteStart());
-    //       const res = await fetch(`/api/user/delete/${currentUser._id}`, {
-    //         method: 'DELETE',
-    //       });
-    //       const data = await res.json();
-    //       if (!res.ok) {
-    //         dispatch(deleteFailure(data.message));
-    //       } else {
-    //         dispatch(deleteSuccess(data));
-    //       }
-    //     } catch (error) {
-    //       dispatch(deleteFailure(error.message));
-    //     }
-    //   };
   return (
     <div className='max-w-lg mx-auto p-4 w-full'>
     <h1 className='my-7 text-center text-3xl font-semibold uppercase'>Profile</h1>

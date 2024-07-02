@@ -1,20 +1,38 @@
 import { Navbar, Button, TextInput, Dropdown, Avatar } from "flowbite-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation ,useNavigate } from "react-router-dom";
 import { FaMoon } from "react-icons/fa";
 import { FaSun } from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleTheme } from '../redux/theme/themeSlice.js';
+import { signoutStart,signoutSuccess,signoutFailure } from '../redux/user/userSlice.js'
 
 export const Header = () => {
   const path = useLocation().pathname;
   const currentUser = useSelector(state => state.user.currentUser);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { theme } = useSelector(state => state.theme);
 
   const handleToggleTheme = () => {
     dispatch(toggleTheme());
   };
+
+  const handlesignout = async() =>{
+    try {
+      dispatch(signoutStart());
+      const res = await fetch('/api/user/signout',{method:'POST'});
+      const data = await res.json();
+      if(!res.ok){
+        console.log(data.message);
+      }else{
+        dispatch(signoutSuccess(data));
+        navigate('sign-in')
+      }
+    } catch (error) {
+      dispatch(signoutFailure(error.message));
+    }
+  }
 
   return (
     <Navbar className='border-b-2 sticky top-0 z-50'>
@@ -46,7 +64,7 @@ export const Header = () => {
         {/* เปลี่ยนเงื่อนไขที่แสดง Dropdown หรือปุ่ม Sign In */}
         {!currentUser ? (
           <Link to='/sign-in' className=''>
-            <Button className="font-semibold" color="blue">
+            <Button className="font-semibold" color="blue" >
               Sign In
             </Button>
           </Link>
@@ -76,8 +94,8 @@ export const Header = () => {
               </Dropdown.Item>
             </Link> */}
             <Dropdown.Divider />
-            <Link to={'/sign-out'}>
-              <Dropdown.Item>Sign Out</Dropdown.Item>
+            <Link  onClick={handlesignout} >
+              <Dropdown.Item  onClick={handlesignout}>Sign Out</Dropdown.Item>
             </Link>
           </Dropdown>
         )}
