@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { TextInput ,Button, FileInput, Alert } from 'flowbite-react'
+import { TextInput ,Button, FileInput, Alert ,Spinner} from 'flowbite-react'
 import { useState ,useRef ,useEffect ,useCallback } from 'react';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { app } from '../firebase.js';
@@ -8,47 +8,33 @@ import { HiInformationCircle } from 'react-icons/hi';
 import { FaCamera } from "react-icons/fa";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { updateStart,updateSuccess,updateFailure } from '../redux/user/userSlice.js'
+import { updateStart,updateSuccess,updateFailure , deleteStart ,deleteSuccess,deleteFailure } from '../redux/user/userSlice.js'
 import { useDispatch  } from 'react-redux';
-    
+import { useNavigate } from "react-router-dom";
 
+// 
 
 
 export const DashProfile = () => {
 
-    const currentUser = useSelector(state=>state.user.currentUser);
+    const { currentUser, loading , error } = useSelector(state => state.user);
+
 
     const [imageFile,SetImageFile] = useState(null);
     const [imageFileUrl,SetImageFileUrl] = useState(null);
     const [imageFileUploadProgress,setImageFileUploadProgress] = useState(null);
     const [imageFilleUploadError,setImageFileUploadError] = useState(null);
     const [formData,setFormData] = useState({});
+    // const [showModal, setShowModal] = useState(false);
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const filePickerRef = useRef();
 
 
     const [inputErrorMsg,setInputErrorMsg] = useState('');
     const [inputErrorIcon,setInputErrorIcon] = useState('gray');
-
-    // console.log(inputErrorMsg);
-
-
-    const Toast = Swal.mixin({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-        toast.onmouseenter = Swal.stopTimer;
-        toast.onmouseleave = Swal.resumeTimer;
-        }
-    });
-
-
-    
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -107,7 +93,6 @@ export const DashProfile = () => {
     }
 
     const handleSumbit = async(e) => {
-
         e.preventDefault();
         if(Object.keys(formData).length === 0) {
             return;
@@ -146,6 +131,68 @@ export const DashProfile = () => {
         }
     }
 
+
+    const handleDelete = (e) => {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be delete account?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#009900',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteAccount();
+            }
+        });
+    };
+
+    const deleteAccount = async () => {
+
+        try {
+            dispatch(deleteStart());
+            const res = await fetch(`/api/user/delete/${currentUser._id}`, {method: 'DELETE'});
+            const data = await res.json();
+
+            if (!res.ok) {
+                dispatch(deleteFailure(data.message))
+            }
+            else{
+                dispatch(deleteSuccess(data));
+                navigate('/sign-in')
+
+            }
+            Swal.fire({
+                title: 'Deleted!',
+                text: 'Your account has been deleted.',
+                icon: 'success'
+            });
+        } catch (error) {
+            dispatch(deleteFailure(error.message));
+        }
+    };
+
+
+
+    // const handleDeleteUser = async () => {
+    //     setShowModal(false);
+    //     try {
+    //       dispatch(deleteStart());
+    //       const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+    //         method: 'DELETE',
+    //       });
+    //       const data = await res.json();
+    //       if (!res.ok) {
+    //         dispatch(deleteFailure(data.message));
+    //       } else {
+    //         dispatch(deleteSuccess(data));
+    //       }
+    //     } catch (error) {
+    //       dispatch(deleteFailure(error.message));
+    //     }
+    //   };
   return (
     <div className='max-w-lg mx-auto p-4 w-full'>
     <h1 className='my-7 text-center text-3xl font-semibold uppercase'>Profile</h1>
@@ -236,14 +283,53 @@ export const DashProfile = () => {
                 ) : ( null)}
             </label>
         </div>
-        <Button type='submit' color='blue' className='font-bold'>Update</Button>
+        <Button type='submit' color='blue' className='font-bold'>
+        {
+              loading ? (
+                <div className='flex items-center gap-2 justify-center cursor-wait' >
+                  <Spinner size='md' />
+                  <span>Loading...</span>
+                </div>
+              ) : 'Update'
+            }
+        </Button>
     </form>
-    <div className="text-red-500 mt-5 flex justify-end  underline ">
-        <span className=''>
-            Delete Account
+    <div className='text-red-500 flex justify-end mt-2'>
+        <span onClick={handleDelete} className='cursor-pointer'>
+          Delete Account
         </span>
-    </div>
-    </div>
+      </div>
+      
+      {error && (
+        <Alert color='failure' className='mt-5'>
+          {error}
+        </Alert>
+      )}
+      {/* <Modal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        popup
+        size='md'
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className='text-center'>
+            <HiOutlineExclamationCircle className='h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto' />
+            <h3 className='mb-5 text-lg text-gray-500 dark:text-gray-400'>
+              Are you sure you want to delete your account?
+            </h3>
+            <div className='flex justify-center gap-4'>
+              <Button color='failure' onClick={handleDeleteUser}>
+                Yes, I&apos;m sure
+              </Button>
+              <Button color='gray' onClick={() => setShowModal(false)}>
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal> */}
+    </div> 
   )
 }
 

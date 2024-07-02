@@ -2,9 +2,10 @@ import { errorHandler } from "../utills/error.js";
 import bcryptjs from 'bcryptjs';
 import User from "../models/user.model.js";
 
-export const test = ('/test', (req, res) => {
+export const test = (req, res) => {
     res.json({ message: 'API is working!' });
-});
+  };
+  
 
 export const updateUser = async (req, res, next) => {
     const userId = req.params.userId;
@@ -73,17 +74,24 @@ export const updateUser = async (req, res, next) => {
 }
 
 export const deleteUser = async (req, res, next) => {
-
     if (req.user.id !== req.params.userId) {
-        return next(errorHandler(403, 'You are not allowed to delete this user!'));
+      return next(errorHandler(403, 'You are not allowed to delete this user'));
     }
     try {
-        const user = await User.findByIdAndDelete(req.params.userId);
-        if (!user) {
-            return next(errorHandler(404, 'User not found!'));
-        }
-        res.status(200).json({ message: 'User deleted successfully' });
+      await User.findByIdAndDelete(req.params.userId);
+      res.status(200).json(null);
     } catch (error) {
-        next(error);
+      next(error);
     }
-};
+  };
+  
+//   export const signout = (req, res, next) => {
+//     try {
+//       res
+//         .clearCookie('access_token')
+//         .status(200)
+//         .json('User has been signed out');
+//     } catch (error) {
+//       next(error);
+//     }
+//   };
