@@ -10,7 +10,9 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { updateStart,updateSuccess,updateFailure , deleteStart ,deleteSuccess,deleteFailure } from '../redux/user/userSlice.js'
 import { useDispatch  } from 'react-redux';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { BsPostcard } from "react-icons/bs";
+import { FaRegEdit } from "react-icons/fa";
 
 // 
 
@@ -119,11 +121,14 @@ export const DashProfile = () => {
                 dispatch(updateSuccess(data));
                 setInputErrorIcon('gray');
                 Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    text:"update successfully",
                     title: "Success",
-                    text:  "Update Successful!",
-                    icon:  'success',
-                    confirmButtonText:"Ok",
+                    showConfirmButton: false,
+                    timer: 1500
                   });
+
             }
         } catch (error) {
             setInputErrorMsg(error.message);
@@ -267,21 +272,29 @@ export const DashProfile = () => {
             </label>
         </div>
         <Button type='submit' color='blue' className='font-bold'>
+        <FaRegEdit  className="mr-2 h-5 w-5"/>
         {
               loading ? (
                 <div className='flex items-center gap-2 justify-center cursor-wait' >
-                  <Spinner size='md' />
+                  <Spinner size='md' /> 
                   <span>Loading...</span>
                 </div>
               ) : 'Update'
             }
         </Button>
+        {currentUser.isAdmin ? (
+            <Link to='/create-post'>
+                <Button  type='button' color='blue' outline className='font-bold w-full flex flex-wrap gap-2'>
+                    <BsPostcard className="mr-2 h-5 w-5"/>  Create Post
+                </Button>
+            </Link>
+        ) : (null)}
     </form>
-    <div className='text-red-500 flex justify-end mt-2'>
-        <span onClick={handleDelete} className='cursor-pointer'>
-          Delete Account
-        </span>
-      </div>
+        <div className='text-red-500 flex justify-end mt-2'>
+            <span onClick={handleDelete} className='cursor-pointer'>
+             Delete Account
+            </span>
+        </div>
       
       {error && (
         <Alert color='failure' className='mt-5'>
