@@ -79,6 +79,7 @@ export const Header = () => {
                 rounded
               />
             }>
+
             <Dropdown.Header>
               <span className='text-sm block'>@{currentUser.username}</span>
               <span className='text-sm block font-semibold truncate'>{currentUser.email}</span>

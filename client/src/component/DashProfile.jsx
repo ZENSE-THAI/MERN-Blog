@@ -290,11 +290,15 @@ export const DashProfile = () => {
             </Link>
         ) : (null)}
     </form>
+
+    {currentUser.isAdmin ? (null) : (
         <div className='text-red-500 flex justify-end mt-2'>
             <span onClick={handleDelete} className='cursor-pointer'>
              Delete Account
             </span>
         </div>
+    )}
+        
       
       {error && (
         <Alert color='failure' className='mt-5'>

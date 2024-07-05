@@ -2,6 +2,8 @@ import { TextInput, Textarea, FileInput, Label, Checkbox ,Button} from "flowbite
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
+
+
 export const CreatePost = () => {
 
     return (
