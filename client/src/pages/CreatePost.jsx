@@ -1,15 +1,13 @@
-import { TextInput, Textarea, FileInput, Label, Checkbox ,Button} from "flowbite-react";
+import { TextInput, Textarea, FileInput, Label, Checkbox, Button } from "flowbite-react";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-
-
 
 export const CreatePost = () => {
 
     return (
         <div className="p-3 max-w-3xl mx-auto min-h-screen">
             <h1 className="font-semibold text-2xl md:text-4xl text-center my-7">CreatePost</h1>
-            <form className="flex flex-col gap-4">
+            <form className="flex flex-col gap-4" >
                 <div className="flex flex-col gap-4 sm:flex-row justify-between items-center">
                     <TextInput type="text" placeholder='Title' className="w-full flex-1" required autoComplete="true" color='gray' />
                     <div className="flex flex-wrap">
@@ -74,7 +72,7 @@ export const CreatePost = () => {
                     className="h-72 mb-12 text-gray-900 dark:text-gray-100"
                     required
                 />
-                <Button color='blue'>Publisher</Button>
+                <Button color='blue' type='submit'>Publish</Button>
             </form>
         </div>
     );
