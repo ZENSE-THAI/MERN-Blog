@@ -1,8 +1,62 @@
 import { TextInput, Textarea, FileInput, Label, Checkbox, Button } from "flowbite-react";
+import { useState , useRef} from "react";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { app } from "../firebase.js";
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+
+
+
 
 export const CreatePost = () => {
+
+    const quillRef = useRef(null);
+    const [file,setFile] = useState(null);
+    const [imageProgress,setImageProgress] = useState(null);
+    const [imageUploadError,setImageUploadError] = useState(null);
+    const [fromData,setFromData] = useState({});
+
+    console.log(imageProgress);
+    console.log(imageUploadError);
+    console.log(fromData);
+
+    const handleUploadImage = async () => {
+        try {
+            if(!file) {
+                setImageUploadError('Please select a file to upload');
+                return;
+            }
+            setImageUploadError(null);
+            const storage = getStorage(app);
+            const fileName = new Date().getTime()+'-'+file.name;
+            const storageRef = ref(storage, fileName);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    setImageProgress(progress.toFixed(0));
+                },() => {
+                    setImageUploadError('Upload error');
+                    setImageProgress(null);
+                },() => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        setImageUploadError(null);
+                        setImageProgress(null);
+                        setFromData({...fromData,image:downloadURL});
+                        
+                    });
+                }
+            );
+        } catch (error) {
+            setImageUploadError('Image Upload failed!');
+            setImageProgress(null);
+        }
+
+    }
+    
 
     return (
         <div className="p-3 max-w-3xl mx-auto min-h-screen">
@@ -36,37 +90,36 @@ export const CreatePost = () => {
                     </div>
                 </div>
                 <Textarea className="flex-1" type="text" placeholder='Description' required autoComplete="true" />
-                <label htmlFor="dropzone-file">Front Cover Picture</label>
-                <div className="flex w-full items-center justify-center">
-                    <Label
-                        htmlFor="dropzone-file"
-                        className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-                    >
-                        <div className="flex flex-col items-center justify-center pb-6 pt-5">
-                            <svg
-                                className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 20 16"
-                            >
-                                <path
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                <label htmlFor="fileUpload">Header Picture</label>
+                <div className="w-full rounded-lg border-dashed border-2 p-2 flex flex-row  items-center justify-between">
+                    <FileInput id="file" onChange={(e) => setFile(e.target.files[0])}/>
+                    <Button color="blue"  onClick={handleUploadImage} disabled={imageProgress}>
+                        {imageProgress ? (
+                           <div className="w-16 h-16">
+                                <CircularProgressbar 
+                                    value={imageProgress} 
+                                    text={`${imageProgress}%`} 
                                 />
-                            </svg>
-                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                <span className="font-semibold">Click to upload</span> or drag and drop
-                            </p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                        </div>
-                        <FileInput id="dropzone-file" className="hidden" />
-                    </Label>
+                           </div>
+                        ) : 
+                        ("Upload")}
+                    </Button>
                 </div>
+                {imageUploadError ? (
+                    <span className="text-red-500 text-sm">
+                        {imageUploadError}
+                    </span>
+                ) : (null)}
+
+                {fromData.image ? (
+                    <img 
+                        src={file ? URL.createObjectURL(file) : ""} 
+                        alt="้header picture" 
+                        className="w-full h-64 object-cover" 
+                    />
+                    ) : (null)}
                 <ReactQuill
+                    ref={quillRef}
                     theme="snow"
                     placeholder="Write something...."
                     className="h-72 mb-12 text-gray-900 dark:text-gray-100"
