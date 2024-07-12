@@ -89,6 +89,13 @@ export const Header = () => {
                 Profile
               </Dropdown.Item>
             </Link>
+            {currentUser.isAdmin ? (
+              <Link to={'/create-post'}>
+                <Dropdown.Item>
+                  Create Post
+                </Dropdown.Item>
+              </Link>
+            ) : (null)}
             {/* <Link to={'/dashboard?tab=profile'}>
               <Dropdown.Item>
                 Dashboard

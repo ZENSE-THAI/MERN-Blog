@@ -20,7 +20,7 @@ const postSchema =  new mongoose.Schema(
             default:'https://miro.medium.com/v2/resize:fit:720/0*AfLO3O_EO0Cgt47k.png',
         },
         category:{
-            type:String,
+            type:Array,
             default:'Uncategorized',
         },
         slug:{

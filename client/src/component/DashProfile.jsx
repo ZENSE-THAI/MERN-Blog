@@ -282,13 +282,13 @@ export const DashProfile = () => {
               ) : 'Update'
             }
         </Button>
-        {currentUser.isAdmin ? (
-            <Link to='/create-post' target='_blank'>
+        {/* {currentUser.isAdmin ? (
+            <Link to='/create-post'>
                 <Button  type='button' color='blue' outline className='font-bold w-full flex flex-wrap gap-2'>
                     <BsPostcard className="mr-2 h-5 w-5"/>  Create Post
                 </Button>
             </Link>
-        ) : (null)}
+        ) : (null)} */}
     </form>
 
     {currentUser.isAdmin ? (null) : (
