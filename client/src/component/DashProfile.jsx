@@ -10,9 +10,9 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { updateStart,updateSuccess,updateFailure , deleteStart ,deleteSuccess,deleteFailure } from '../redux/user/userSlice.js'
 import { useDispatch  } from 'react-redux';
-import { Link, useNavigate } from "react-router-dom";
-import { BsPostcard } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 import { FaRegEdit } from "react-icons/fa";
+
 
 // 
 

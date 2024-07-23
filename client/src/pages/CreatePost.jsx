@@ -7,6 +7,8 @@ import { app } from "../firebase.js";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate } from 'react-router-dom';
+import { Breadcrumb } from "flowbite-react";
+import { HiHome } from "react-icons/hi";
 
 
 export const CreatePost = () => {
@@ -64,8 +66,6 @@ export const CreatePost = () => {
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
-        console.log(formData);
-        
         try {
             const res = await fetch('api/post/create',{
                 method: "POST",
@@ -79,7 +79,7 @@ export const CreatePost = () => {
             }
             if(res.ok){
                 setPiblishError(null);
-                navigate(`/post/${data.data.slug}`);
+                navigate(`/dashboard?tab=posts`);
             }
         } catch (error) {
             setPiblishError('Something went wrong!');
@@ -87,6 +87,13 @@ export const CreatePost = () => {
     }
     return (
         <div className="p-3 max-w-3xl mx-auto min-h-screen">
+            <Breadcrumb aria-label="Default breadcrumb example">
+                <Breadcrumb.Item href="/dashboard?tab=profile" icon={HiHome}>
+                    Dashboard
+                </Breadcrumb.Item>
+                <Breadcrumb.Item href="/dashboard?tab=posts">Post</Breadcrumb.Item>
+                <Breadcrumb.Item>Create Post</Breadcrumb.Item>
+            </Breadcrumb>
             <h1 className="font-semibold text-2xl md:text-4xl text-center my-7">CreatePost</h1>
             {publishError ? (
                 <Alert color="failure" className="mb-4">

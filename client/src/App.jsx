@@ -10,6 +10,7 @@ import { About } from './pages/About.jsx'
 import { Projects } from './pages/Projects.jsx'
 import { Dashboard } from './pages/Dashboard.jsx'
 import { CreatePost } from './pages/CreatePost.jsx';
+import { UpdatePost } from './pages/UpdatePost.jsx';
 import PrivateRoute from './component/PrivateRoute.jsx';
 import AdminPrivateRoute from './component/AdminPrivateRoute.jsx';
 
@@ -31,6 +32,7 @@ export default function App() {
           </Route>
           <Route element={<AdminPrivateRoute/>}>
               <Route path='/create-post' element={<CreatePost/>}></Route>
+              <Route path='/update-post/:postId' element={<UpdatePost/>}></Route>
           </Route>
         </Routes>
       <FooterComponent/>
