@@ -91,13 +91,13 @@ export const DashPosts = () => {
   }
 
   return (
-    <div className="w-full table-auto md:mx-auto overflow-x-auto p-3 
+    <div className="flex flex-col  justify-center items-center table-auto md:mx-auto overflow-x-auto p-3 
         scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 
       dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-600"
     >
       {currentUser.isAdmin && userPost.length > 0 ? (
         <>
-        <div className="mb-5 w-full flex justify-end">
+        <div className="mb-5 w-full flex justify-end md:mx-auto">
           <Button  color="blue" as={Link} to="/dashboard?tab=create-post">Create Post</Button>
         </div>
           <Table hoverable>

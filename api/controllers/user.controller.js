@@ -98,24 +98,45 @@ export const deleteUser = async (req, res, next) => {
 
 
   export const getUsers = async (req, res, next) => {
-    // console.log(req.user);
-    if (req.user.id !== req.params.userId) {
-        return next(errorHandler(403, 'You are not allowed see all users'));
-      }
     try {
-        const startIndex =  parseInt(req.query.startIndex) || 0;
-        const limit = parseInt(req.query.limit) || 9;
-        const sortDirection = req.query.order === 'asc' ? 1 : -1;
-        const users = await User.find().sort({ updatedAt: sortDirection }).skip(startIndex).limit(limit);
-        const totalUsers = await User.countDocuments();
-        const now = new Date();
-        const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
-        const lastMonthUsers = await User.countDocuments({
-            createdAt: { $gte: oneMonthAgo }
-        });
-        res.status(200).json(users);
-        // console.log(users);
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 9;
+      const startIndex = (page - 1) * limit;
+      const sortDirection = req.query.order === 'asc' ? 1 : -1;
+  
+      const users = await User.find({
+        ...(req.query._Id && { userId: req.query._Id }),
+        ...(req.query.username && { username: req.query.username }),
+        ...(req.query.email && { email: req.query.email }),
+        ...(req.query.profilePicture && { profilePicture: req.query.profilePicture }),
+        ...(req.query.isAdmin && { isAdmin: req.query.isAdmin }),
+        ...(req.query.searchTerm && {
+          $or: [
+            { title: { $regex: req.query.searchTerm, $options: 'i' } },
+            { content: { $regex: req.query.searchTerm, $options: 'i' } }
+          ]
+        })
+      })
+      .sort({ updatedAt: sortDirection })
+      .skip(startIndex)
+      .limit(limit);
+  
+      const totalUsers = await User.countDocuments();
+      const now = new Date();
+      const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+      const lastMonthUsers = await User.countDocuments({
+        createdAt: { $gte: oneMonthAgo }
+      });
+  
+      res.status(200).json({
+        users,
+        totalUsers,
+        lastMonthUsers,
+        currentPage: page,
+        totalPages: Math.ceil(totalUsers / limit)
+      });
     } catch (error) {
       next(error);
     }
   };
+  
