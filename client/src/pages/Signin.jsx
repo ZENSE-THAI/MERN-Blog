@@ -1,4 +1,4 @@
-import { React, useState } from 'react'
+import { useState } from 'react'
 import {  Link , useNavigate} from 'react-router-dom'
 import { FloatingLabel,Button, Alert, Spinner} from 'flowbite-react'
 import { HiInformationCircle } from "react-icons/hi";

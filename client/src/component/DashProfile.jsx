@@ -19,7 +19,7 @@ import { FaRegEdit } from "react-icons/fa";
 
 export const DashProfile = () => {
 
-    const { currentUser, loading , error } = useSelector(state => state.user);
+    const { currentUser, loading  } = useSelector(state => state.user);
 
 
     const [imageFile,SetImageFile] = useState(null);
@@ -300,11 +300,11 @@ export const DashProfile = () => {
     )}
         
       
-      {error && (
+      {/* {error && (
         <Alert color='failure' className='mt-5'>
           {error}
         </Alert>
-      )}
+      )} */}
       {/* <Modal
         show={showModal}
         onClose={() => setShowModal(false)}

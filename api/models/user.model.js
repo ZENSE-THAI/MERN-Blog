@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
       },
       profilePicture:{
         type:String,
-        default:"https://upload.wikimedia.org/wikipedia/commons/a/af/Default_avatar_profile.jpg",
+        default:'../../client/src/assets/Images/Default_avatar_profile.jpg',
       },
       isAdmin:{
         type:Boolean,
