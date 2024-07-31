@@ -1,5 +1,5 @@
-import { TextInput, Alert, FileInput, Label, Checkbox, Button } from "flowbite-react";
-import { useState , useRef } from "react";
+import { TextInput, FileInput, Label, Checkbox, Button } from "flowbite-react";
+import { useState, useRef } from "react";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
@@ -9,7 +9,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate } from 'react-router-dom';
 import { Breadcrumb } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
-
+import Swal from 'sweetalert2'; // SweetAlert2 import
 
 export const CreatePost = () => {
 
@@ -38,6 +38,11 @@ export const CreatePost = () => {
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     setImageProgress(progress.toFixed(0));
                 }, () => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Upload error',
+                        text: 'There was an error uploading the image.',
+                    });
                     setImageUploadError('Upload error');
                     setImageProgress(null);
                 }, () => {
@@ -49,6 +54,11 @@ export const CreatePost = () => {
                 }
             );
         } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Image Upload failed!',
+                text: 'Failed to upload image. Please try again.',
+            });
             setImageUploadError('Image Upload failed!');
             setImageProgress(null);
         }
@@ -64,27 +74,43 @@ export const CreatePost = () => {
         });
     };
 
-    const handleSubmit = async (e) =>{
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch('api/post/create',{
+            const res = await fetch('api/post/create', {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(formData)
-                });
+            });
             const data = await res.json();
-            if(!res.ok){
+            if (!res.ok) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Publish Error',
+                    text: data.message,
+                });
                 setPiblishError(data.message);
                 return;
             }
-            if(res.ok){
+            if (res.ok) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Published!',
+                    text: 'Your post has been published successfully.',
+                });
                 setPiblishError(null);
                 navigate(`/dashboard?tab=posts`);
             }
         } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Something went wrong!',
+                text: 'There was a problem while publishing your post. Please try again.',
+            });
             setPiblishError('Something went wrong!');
         }
     }
+
     return (
         <div className="p-3 max-w-3xl mx-auto min-h-screen">
             <Breadcrumb aria-label="Default breadcrumb example">
@@ -94,12 +120,7 @@ export const CreatePost = () => {
                 <Breadcrumb.Item href="/dashboard?tab=posts">Post</Breadcrumb.Item>
                 <Breadcrumb.Item>Create Post</Breadcrumb.Item>
             </Breadcrumb>
-            <h1 className="font-semibold text-2xl md:text-4xl text-center my-7">CreatePost</h1>
-            {publishError ? (
-                <Alert color="failure" className="mb-4">
-                    {publishError}
-                </Alert>
-            ): (null)}
+            <h1 className="font-semibold text-2xl md:text-4xl text-center my-7">Create Post</h1>
             <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                 <div className="flex flex-col gap-4 sm:flex-row justify-between items-center">
                     <TextInput 

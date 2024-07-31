@@ -105,7 +105,7 @@ export const DashUsers = () => {
                       />
                     </Table.Cell>
                     <Table.Cell>{user.username}</Table.Cell>
-                    <Table.Cell>{user.email}</Table.Cell>
+                    <Table.Cell>{user.email}</Table.Cell> 
                     <Table.Cell className="flex justify-center items-center">
                       {user.isAdmin ? (
                         <FaCheck className="text-green-500" />

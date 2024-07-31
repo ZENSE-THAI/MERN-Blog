@@ -9,7 +9,7 @@ export const DashPosts = () => {
   const [userPost, setUserPost] = useState([]);
   const [showMore, setShowMore] = useState(true);
 
-  useEffect(() => {
+  
     const fetchPosts = async () => {
       try {
         const res = await fetch(`/api/post/getpost?userId=${currentUser._id}`);
@@ -27,6 +27,7 @@ export const DashPosts = () => {
       }
     };
 
+  useEffect(() => {
     if (currentUser.isAdmin) {
       fetchPosts();
     }
@@ -57,6 +58,8 @@ export const DashPosts = () => {
           title: "Deleted!",
           text: "Your post has been deleted.",
           icon: "success"
+        }).than(() => {
+          fetchPosts();
         });
       } else {
         Swal.fire({
@@ -114,7 +117,7 @@ export const DashPosts = () => {
                 <Table.Row key={post._id}>
                   <Table.Cell>{new Date(post.updatedAt).toLocaleDateString()}</Table.Cell>
                   <Table.Cell>
-                    <Link to={`/post/${post.slug}`} target="_blank">
+                    <Link to={`/post/${post.slug}`}>
                       <img 
                         src={post.image} 
                         alt={post.title} 
@@ -123,7 +126,7 @@ export const DashPosts = () => {
                     </Link>
                   </Table.Cell>
                   <Table.Cell>
-                    <Link to={`/post/${post.slug}`} target="_blank" className="font-medium text-gray-900 dark:text-gray-100 hover:underline">
+                    <Link to={`/post/${post.slug}`} className="font-medium text-gray-900 dark:text-gray-100 hover:underline">
                       {post.title}
                     </Link>
                   </Table.Cell>

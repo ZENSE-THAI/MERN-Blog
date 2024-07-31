@@ -13,6 +13,7 @@ import { CreatePost } from './pages/CreatePost.jsx';
 import { UpdatePost } from './pages/UpdatePost.jsx';
 import PrivateRoute from './component/PrivateRoute.jsx';
 import AdminPrivateRoute from './component/AdminPrivateRoute.jsx';
+import PostPage from './pages/PostPage.jsx';
 
 
 
@@ -27,6 +28,7 @@ export default function App() {
           <Route path='/sign-up' element={<Signup/>}></Route>
           <Route path='/about' element={<About/>}></Route>
           <Route path='/projects' element={< Projects/>}></Route>
+          <Route path='/post/:postSlug' element={<PostPage/>}></Route>
           <Route element={<PrivateRoute/>}>
               <Route path='/dashboard' element={<Dashboard/>}></Route>
           </Route>
