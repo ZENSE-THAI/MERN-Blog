@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Button, Spinner } from 'flowbite-react';
+import { CallToAction } from '../component/CallToAction';
 
 const PostPage = () => {
     const { postSlug } = useParams();
@@ -73,6 +74,10 @@ const PostPage = () => {
                     <span className='italic'>{post && (post.content.length / 1000).toFixed(0)} mins read</span>
                 </div>
                 <div dangerouslySetInnerHTML={{ __html: post.content }} className="font-sans p-3 max-w-2xl mx-auto w-full post-content"></div>
+                
+                <div className="max-w-4xl mx-auto p-3 w-full">
+                    <CallToAction/>
+                </div>
         </main>
     );
 };
