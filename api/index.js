@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import userRoutes from './routes/user.route.js';
 import authRoute from './routes/auth.route.js'
 import postRount from './routes/post.route.js'
+import commentRount from './routes/comment.route.js'
 import cookieParser from 'cookie-parser';
 
 
@@ -29,6 +30,7 @@ app.listen(PORT, () => {
 app.use('/api/user', userRoutes); 
 app.use('/api/auth',authRoute); 
 app.use('/api/post',postRount);
+app.use('/api/comment',commentRount);
 app.use((err,req,res,next) => {
     const statusCode = err.statusCode || 500
     const message = err.message || 'Internet Server Error'

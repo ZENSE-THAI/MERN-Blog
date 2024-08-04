@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Button, Spinner } from 'flowbite-react';
 import { CallToAction } from '../component/CallToAction';
+import { CommentSection } from '../component/CommentSection';
 
 const PostPage = () => {
     const { postSlug } = useParams();
@@ -71,12 +72,15 @@ const PostPage = () => {
                 <img src={post.image} alt={post.title}  className='mt-10 p-2 max-h-[600px] w-full object-cover'/>
                 <div className="flex justify-between text-xs mx-auto w-full max-w-2xl p-3 border-b border-slate-300">
                     <span>{new Date(post.createdAt).toLocaleDateString()}</span>
-                    <span className='italic'>{post && (post.content.length / 1000).toFixed(0)} mins read</span>
+                    <span className='italic'>{post && (post.content.length / 1000).toFixed(0)} mins read.</span>
                 </div>
                 <div dangerouslySetInnerHTML={{ __html: post.content }} className="font-sans p-3 max-w-2xl mx-auto w-full post-content"></div>
                 
                 <div className="max-w-4xl mx-auto p-3 w-full">
                     <CallToAction/>
+                </div>
+                <div className="max-w-2xl mx-auto p-3 w-full">
+                    <CommentSection postId={post._id}/>
                 </div>
         </main>
     );
