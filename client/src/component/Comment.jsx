@@ -22,20 +22,22 @@ const Comment = ({ comment }) => {
     }, [comment]);
 
     return (
-        <div className="flex items-center my-2">
-            <img
-                src={user.profilePicture}
-                alt={user.username}
-                className="w-10 h-10 rounded-full bg-gray-200"
-            />
-            <div className="ml-3">
-                <div className="flex items-center">
-                    <span className="font-bold mr-1 truncate">
+        <div className="flex  my-2 p-4 border-b dark:border-gray-600 text-sm">
+            <div className="flex-shrink-0 mr-3">
+              <img
+                  src={user.profilePicture}
+                  alt={user.username}
+                  className="w-10 h-10 rounded-full bg-gray-200"
+              />
+            </div>
+            <div className="flex-1">
+                <div className="flex items-center mb-1">
+                    <span className="font-bold mr-1 text-xs truncate">
                         {user ? `@${user.username}` : 'anonymous user'}
                     </span>
                     <span className="text-xs text-gray-500">{moment(comment.createdAt).fromNow()}</span>
                 </div>
-                <p>{comment.content}</p>
+                <p className='text-gray-500 pb-2'>{comment.content}</p>
             </div>
         </div>
     );
