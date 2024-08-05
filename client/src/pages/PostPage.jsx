@@ -55,7 +55,6 @@ const PostPage = () => {
     return (
         <main className='p-3 flex flex-col mx-auto max-w-6xl min-h-screen font-mono'>
             <h1 className='text-2xl font-bold mt-10 p-3 text-center  max-w-full mx-auto md:text-3xl lg:text-4xl'>{post.title}</h1>
-                
                 {post.category ? (
                     <div className="flex gap-2 mt-5 self-center">
                         {post.category.map((category, index) => (
