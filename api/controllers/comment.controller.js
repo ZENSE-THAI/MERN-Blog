@@ -42,3 +42,39 @@ export const getComment = async(req,res,next) => {
         next(errorHandler(500,'Internal Server Error'));
     }
 }
+
+
+export const likeComment = async (req, res, next) => {
+    try {
+        // ดึงคอมเมนต์จากฐานข้อมูลตาม commentId ที่ส่งมาใน params
+        const comment = await Comment.findById(req.params.commentId);
+        
+        // ถ้าไม่เจอคอมเมนต์ ให้ส่งข้อความกลับไปว่า "Comment not found!"
+        if (!comment) {
+            return next('Comment not found!');
+        }
+
+        // ตรวจสอบว่า user.id ที่ส่งมาอยู่ในอาร์เรย์ like ของคอมเมนต์หรือไม่
+        const userIndex = comment.like.indexOf(req.user.id);
+        
+        // ถ้า user.id ยังไม่อยู่ในอาร์เรย์ like
+        if (userIndex === -1) {
+            // เพิ่มจำนวน like ขึ้น 1
+            comment.numberOfLike += 1;
+            // เพิ่ม user.id ลงในอาร์เรย์ like
+            comment.like.push(req.user.id);
+        } else {
+            // ถ้า user.id อยู่ในอาร์เรย์ like แล้ว ให้ลบออก
+            comment.numberOfLike -= 1;
+            comment.like.splice(userIndex, 1);
+        }
+
+        // บันทึกคอมเมนต์ที่ถูกอัปเดตกลับไปที่ฐานข้อมูล
+        await comment.save();
+        // ส่งคอมเมนต์ที่อัปเดตกลับไปใน response
+        res.status(200).json(comment);
+    } catch (error) {
+        // ถ้าเกิดข้อผิดพลาด ให้ส่ง error กลับไปใน middleware
+        return next(error);
+    }
+};

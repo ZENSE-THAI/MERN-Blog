@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link , useNavigate} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Textarea, Button, Alert } from 'flowbite-react';
 import { useEffect, useState } from 'react';
@@ -10,6 +10,7 @@ export const CommentSection = ({ postId }) => {
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState([]);
     const [commentError, setCommentError] = useState();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -63,6 +64,43 @@ export const CommentSection = ({ postId }) => {
         setCommentError(null);
     }, [postId]);
 
+
+    const handleLike = async (commentId) => {
+        try {
+            // ถ้ายังไม่ได้ sign in จะ redirect ไปที่หน้า sign-in
+            if (!currentUser) {
+                navigate('/sign-in');
+                return;
+            }
+    
+            // เรียก API เพื่อทำการ like comment โดยใช้ method PUT
+            const res = await fetch(`/api/comment/likeComment/${commentId}`, {
+                method: "PUT"
+            });
+    
+            if (res.ok) {
+                // ถ้า API ตอบกลับสำเร็จ ให้ parse ข้อมูล JSON ที่ได้
+                const data = await res.json();
+
+                // อัปเดต state ของ comments โดยการใช้ map
+                // ถ้า comment._id ตรงกับ commentId ที่ถูก like ให้ปรับปรุงข้อมูล like และ numberOfLike
+                // ถ้าไม่ตรงก็ให้คืนค่า comment เดิมกลับไป
+                setComments(comments.map((comment) =>
+                    comment._id === commentId ? {
+                        ...comment, // กระจายคุณสมบัติของ comment ออกมา
+                        like: data.like, // อัปเดตข้อมูล like ที่ได้จาก API
+                        numberOfLike: data.like.length, // อัปเดตจำนวน like ที่ได้จาก API
+                    } : comment // ถ้าไม่ตรงกับ commentId ให้คืนค่า comment เดิม
+                ));
+            } else {
+                console.log('Failed to like comment');
+            }
+        } catch (error) {
+            // ถ้ามีข้อผิดพลาด ให้แสดงใน console
+            console.log(error);
+        }
+    };
+    
     return (
         <div>
             {currentUser ? (
@@ -129,7 +167,12 @@ export const CommentSection = ({ postId }) => {
                     </div>
 
                     {comments.map((comment) => (
-                        <Comment key={comment._id || comment.id} comment={comment} />
+                        <Comment 
+                            key={comment._id || comment.id} 
+                            currentUser={currentUser} 
+                            comment={comment}  
+                            onLike={handleLike}
+                        />
                     ))}
                 </>
             )}
