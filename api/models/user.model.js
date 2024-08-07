@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
       },
       profilePicture:{
         type:String,
-        default:'../../client/src/assets/Images/Default_avatar_profile.jpg',
+        default:'https://www.download.net.pl/uploaded/News_2020/blokada-zdjecia-profilowego-fb/fb-zablokuj-zdjecie.png',
       },
       isAdmin:{
         type:Boolean,

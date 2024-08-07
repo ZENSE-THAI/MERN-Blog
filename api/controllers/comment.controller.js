@@ -26,7 +26,7 @@ export const createComment = async(req,res,next) => {
         });
         
     } catch (error) {
-        next(errorHandler(500,'Internal Server Error'));
+        return next(error);
     }
 }
 
@@ -39,7 +39,7 @@ export const getComment = async(req,res,next) => {
         res.status(200).json(comment);
 
     } catch (error) {
-        next(errorHandler(500,'Internal Server Error'));
+        return  next(error);
     }
 }
 
@@ -51,7 +51,7 @@ export const likeComment = async (req, res, next) => {
         
         // ถ้าไม่เจอคอมเมนต์ ให้ส่งข้อความกลับไปว่า "Comment not found!"
         if (!comment) {
-            return next('Comment not found!');
+            return next(errorHandler(404,'Comment not found!'));
         }
 
         // ตรวจสอบว่า user.id ที่ส่งมาอยู่ในอาร์เรย์ like ของคอมเมนต์หรือไม่
@@ -78,3 +78,28 @@ export const likeComment = async (req, res, next) => {
         return next(error);
     }
 };
+
+
+export const editComment = async(req,res,next) => {
+    try {
+        const comment = await Comment.findById(req.params.commentId);
+        if(!comment){
+            return next(errorHandler(404,'Comment not found'))
+        }
+        if(comment.userId !== req.user.id && !req.user.isAdmin){
+            return next(errorHandler(401,'You are not allowed to edit this comment'))
+        }
+
+        const editedCommnet =  await Comment.findByIdAndUpdate(
+            req.params.commentId,{
+                content:req.body.content,
+            },
+            {new:true},
+        )
+
+        res.status(200).json(editedCommnet);
+
+    } catch (error) {
+        return next(error)
+    }
+}
