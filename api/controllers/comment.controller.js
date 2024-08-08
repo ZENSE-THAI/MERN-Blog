@@ -103,3 +103,32 @@ export const editComment = async(req,res,next) => {
         return next(error)
     }
 }
+
+
+export const deleteComment = async (req, res, next) => {
+    try {
+        // ค้นหา Comment โดย ID
+        const comment = await Comment.findById(req.params.commentId);
+        if (!comment) {
+            return next(errorHandler(404, 'Comment not found'));
+        }
+
+        // ตรวจสอบสิทธิ์ในการลบคอมเมนต์
+        if (!req.user.isAdmin && req.user.id !== comment.userId.toString()) {
+            return next(errorHandler(403, 'You are not allowed to delete this comment'));
+        }
+
+        // ลบคอมเมนต์
+        await Comment.findByIdAndDelete(req.params.commentId);
+
+        // ส่งการตอบกลับ
+        res.status(200).json({
+            success: true,
+            message: 'Comment deleted successfully'
+        });
+
+    } catch (error) {
+        // จัดการข้อผิดพลาด
+        return next(error);
+    }
+};

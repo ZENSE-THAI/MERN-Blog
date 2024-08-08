@@ -4,6 +4,7 @@ import { Textarea, Button, Alert } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { HiInformationCircle } from 'react-icons/hi';
 import Comment from './Comment.jsx';
+import Swal  from 'sweetalert2';
 
 export const CommentSection = ({ postId }) => {
     const currentUser = useSelector((state) => state.user.currentUser);
@@ -11,6 +12,8 @@ export const CommentSection = ({ postId }) => {
     const [comments, setComments] = useState([]);
     const [commentError, setCommentError] = useState();
     const navigate = useNavigate();
+    
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -113,6 +116,57 @@ export const CommentSection = ({ postId }) => {
         
     }
 
+    const confirmDelete = (commentId) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#009900",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                handleDelete(commentId);
+            }
+        });
+    }
+    
+    const handleDelete = async (commentId) => {
+        try {
+            if (!currentUser) {
+                navigate('/sign-in');
+                return;
+            }
+    
+            
+            const commentToDelete = comments.find(comment => comment._id === commentId);
+            if (!commentToDelete) {
+                console.error('Comment not found');
+                return;
+            }
+    
+            if (currentUser._id !== commentToDelete.userId && !currentUser.isAdmin) {
+                console.error('You are not allowed to delete this comment');
+                return;
+            }
+    
+            const res = await fetch(`/api/comment/deleteComment/${commentId}`, {
+                method: 'DELETE',
+            });
+    
+            if (res.ok) {
+                Swal.fire('Deleted!', 'Your comment has been deleted.', 'success');
+                setComments(comments.filter((comment) => comment._id !== commentId));
+                getComments();
+            } else {
+                throw new Error('Failed to delete comment');
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
     return (
         <div>
             {currentUser ? (
@@ -185,6 +239,9 @@ export const CommentSection = ({ postId }) => {
                             comment={comment}  
                             onLike={handleLike}
                             onEdit={handleEdit}
+                            onDelete={(commentId) => {
+                                confirmDelete(commentId);
+                            }}
                         />
                     ))}
                 </>
