@@ -1,14 +1,18 @@
 import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Button, Spinner } from 'flowbite-react';
+import { Button, Spinner} from 'flowbite-react';
 import { CallToAction } from '../component/CallToAction';
 import { CommentSection } from '../component/CommentSection';
+import { PostCard } from '../component/PostCard.jsx';
+
 
 const PostPage = () => {
     const { postSlug } = useParams();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [post, setPost] = useState(null);
+    const [recentPosts, setRecentPosts] = useState(null);
+    
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -35,6 +39,22 @@ const PostPage = () => {
         fetchPost();
     }, [postSlug]);
 
+    useEffect(() => {
+        try {
+            const fecthRecentPosts = async () => {
+                const res = await fetch(`/api/post/getpost?limit=3`);
+                const data = await res.json();
+                if(res.ok){
+                    setRecentPosts(data.posts);
+                }
+            }
+            fecthRecentPosts();
+        } catch (error) {
+            console.log(error.message);
+        }
+    },[])
+
+    
     if (loading) {
         return (
             <div className='flex justify-center items-center h-screen gap-3'>
@@ -51,6 +71,7 @@ const PostPage = () => {
             </div>
         );
     }
+
 
     return (
         <main className='p-3 flex flex-col mx-auto max-w-6xl min-h-screen font-mono'>
@@ -80,6 +101,16 @@ const PostPage = () => {
                 </div>
                 <div className="max-w-2xl mx-auto p-3 w-full">
                     <CommentSection postId={post._id}/>
+                </div>
+                <div className="flex flex-col justity-center items-center max-w-4xl mx-auto p-3 w-full  mb-5">
+                    <h1 className='font-bold text-xl my-5 uppercase'>Recent articles</h1>
+                    <div className="flex flex-col gap-2 sm:flex-row">
+                         {recentPosts &&
+                            recentPosts.map((post) => (
+                                <PostCard key={post._id} post={post} />
+                            ))
+                        }
+                    </div>
                 </div>
         </main>
     );
