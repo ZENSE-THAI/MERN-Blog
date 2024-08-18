@@ -50,7 +50,7 @@ export const CommentSection = ({ postId }) => {
 
     const getComments = async () => {
         try {
-            const res = await fetch(`/api/comment/getComment/${postId}`);
+            const res = await fetch(`/api/comment/getPostComment/${postId}`);
             if (res.ok) {
                 const data = await res.json();
                 setComments(data);

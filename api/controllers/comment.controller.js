@@ -32,6 +32,44 @@ export const createComment = async(req,res,next) => {
 
 
 export const getComment = async(req,res,next) => {
+
+    if(!req.user.isAdmin){
+        return next(errorHandler(403,'Your are not allowed to create a post'));
+    }
+
+    try {
+        const currentPage = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 9;
+        const startIndex = (currentPage - 1) * limit;
+        const sortDirection = req.query.order === 'asc' ? 1 : -1;
+
+        const comment = await Comment.find()
+            .sort({ updatedAt: sortDirection })
+            .skip(startIndex)
+            .limit(limit);
+
+        const totalComment = await Comment.countDocuments();
+        const now = new Date();
+        const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+        const lastMonthComment = await Comment.countDocuments({
+            createdAt: { $gte: oneMonthAgo }
+        });
+
+        res.status(200).json({
+            comment,
+            totalComment,
+            lastMonthComment,
+            currentPage,
+            totalPages: Math.ceil(totalComment / limit)
+        });
+
+    } catch (error) {
+        return next(error);
+    }
+}
+
+
+export const getPostComment = async(req,res,next) => {
     try {
         const comment = await Comment.find({postId:req.params.postId}).sort({
             createdAt: -1,

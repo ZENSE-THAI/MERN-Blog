@@ -4,6 +4,7 @@ import { Sidebar } from 'flowbite-react'
 import { HiArrowSmRight, HiDocumentText, HiUser , HiUserGroup } from 'react-icons/hi'
 import { useDispatch ,useSelector } from 'react-redux';
 import { signoutStart,signoutSuccess,signoutFailure } from '../redux/user/userSlice.js'
+import { GoCommentDiscussion } from "react-icons/go";
 
 
 export const DashSidebar = () => {
@@ -54,11 +55,14 @@ export const DashSidebar = () => {
                     </Sidebar.Item>
                     {currentUser.isAdmin && (
                       <>
-                        <Sidebar.Item active={tab === 'post'} as={Link} to='/dashboard?tab=posts' icon={HiDocumentText}  className='cursor-pointer'>
+                        <Sidebar.Item active={tab === 'posts'} as={Link} to='/dashboard?tab=posts' icon={HiDocumentText}  className='cursor-pointer'>
                           Posts
                         </Sidebar.Item>
-                        <Sidebar.Item active={tab === 'users'} as={Link} to='/dashboard?tab=user' icon={ HiUserGroup}  className='cursor-pointer'>
+                        <Sidebar.Item active={tab === 'user'} as={Link} to='/dashboard?tab=user' icon={ HiUserGroup}  className='cursor-pointer'>
                           Users
+                        </Sidebar.Item>
+                        <Sidebar.Item active={tab === 'comments'} as={Link} to='/dashboard?tab=comments' icon={  GoCommentDiscussion}  className='cursor-pointer'>
+                          Comments
                         </Sidebar.Item>
                       </>
                     )}

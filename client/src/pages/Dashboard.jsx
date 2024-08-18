@@ -6,6 +6,11 @@ import { DashPosts } from '../component/DashPosts.jsx';
 import { UpdatePost } from '../pages/UpdatePost.jsx';
 import {CreatePost} from '../pages/CreatePost.jsx';
 import { DashUsers } from '../component/DashUser.jsx';
+import { DashComments } from '../component/DashComments.jsx';
+
+
+
+
 
 export const Dashboard = () => {
   const location = useLocation();
@@ -43,6 +48,8 @@ export const Dashboard = () => {
         {tab.startsWith('update-post/') && postId && <UpdatePost postId={postId} />}
         {/* Users */}
         {tab === 'user' && <DashUsers />}
+        {/* comments */}
+        {tab === 'comments' && <DashComments />}
       </div>
     </div>
   );

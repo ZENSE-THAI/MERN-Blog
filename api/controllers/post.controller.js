@@ -111,3 +111,17 @@ export const updatePost = async(req,res,next) => {
         next(error);
     }
  }
+
+
+ export const getPostsForComment = async(req,res,next) => {
+    try {
+        const postId = req.params.postId;
+        const  post = await Post.findById(postId);
+        if (!post) {
+          return next(errorHandler(404, 'Post not found'));
+      }
+      res.status(200).json(post);
+      } catch (error) {
+        next(error);
+      }
+ }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector} from "react-redux";
-import { Button, Table } from 'flowbite-react';
+import { Table } from 'flowbite-react';
 import Swal from "sweetalert2";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { Pagination } from "flowbite-react";
@@ -88,11 +88,6 @@ export const DashUsers = () => {
           <div className="table-auto md:mx-auto overflow-x-auto p-3 
           scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 
           dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-600">
-             <div className="flex justify-end">
-             <Button onClick={fetchusers} className="flex justify-end my-3 cursor-pointer bg-blue-500" color={'blue'} outline> 
-              Refresh
-            </Button>
-             </div>
             <Table hoverable className="w-full mx-auto">
               <Table.Head>
                 <Table.HeadCell>Date Created</Table.HeadCell>
