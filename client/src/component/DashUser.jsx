@@ -90,12 +90,12 @@ export const DashUsers = () => {
           dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-600">
             <Table hoverable className="w-full mx-auto">
               <Table.Head>
-                <Table.HeadCell>Date Created</Table.HeadCell>
-                <Table.HeadCell>User Image</Table.HeadCell>
-                <Table.HeadCell>Username</Table.HeadCell>
-                <Table.HeadCell>Email</Table.HeadCell>
-                <Table.HeadCell>Admin</Table.HeadCell>
-                <Table.HeadCell>Delete</Table.HeadCell>
+                <Table.HeadCell  className="bg-gray-200">Date Created</Table.HeadCell>
+                <Table.HeadCell  className="bg-gray-200">User Image</Table.HeadCell>
+                <Table.HeadCell  className="bg-gray-200">Username</Table.HeadCell>
+                <Table.HeadCell  className="bg-gray-200">Email</Table.HeadCell>
+                <Table.HeadCell  className="bg-gray-200">Admin</Table.HeadCell>
+                <Table.HeadCell  className="bg-gray-200">Delete</Table.HeadCell>
               </Table.Head>
               <Table.Body>
                 {users.map((user) => (

@@ -109,21 +109,21 @@ export const DashComments = () => {
         <>
           <div className="table-auto md:mx-auto overflow-x-auto p-3 
           scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 
-          dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-600">
-            <Table hoverable className="w-full mx-auto">
+          dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-600 ">
+            <Table hoverable className="w-full mx-auto x ">
               <Table.Head>
-                <Table.HeadCell>Date Updated</Table.HeadCell>
-                <Table.HeadCell>Comment Content</Table.HeadCell>
-                <Table.HeadCell>Number of likes</Table.HeadCell>
-                <Table.HeadCell>Post Title</Table.HeadCell>
-                <Table.HeadCell>Username</Table.HeadCell>
-                <Table.HeadCell>Delete</Table.HeadCell>
+                <Table.HeadCell  className="bg-gray-200">Date Updated</Table.HeadCell>
+                <Table.HeadCell  className="bg-gray-200">Comment Content</Table.HeadCell>
+                <Table.HeadCell  className="bg-gray-200">Number of likes</Table.HeadCell>
+                <Table.HeadCell  className="bg-gray-200">Post Title</Table.HeadCell>
+                <Table.HeadCell  className="bg-gray-200">Username</Table.HeadCell>
+                <Table.HeadCell  className="bg-gray-200">Delete</Table.HeadCell>
               </Table.Head>
               <Table.Body>
                 {comments.map((comment) => (
                   <Table.Row key={comment._id}>
                     <Table.Cell>{new Date(comment.updatedAt).toLocaleDateString()}</Table.Cell>
-                    <Table.Cell>
+                    <Table.Cell className="line-clamp-2">
                      {comment.content}
                     </Table.Cell>
                     <Table.Cell>{comment.numberOfLike}</Table.Cell>

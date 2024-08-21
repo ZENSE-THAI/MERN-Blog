@@ -10,6 +10,6 @@ router.get('/getPostComment/:postId',getPostComment);
 router.put('/likeComment/:commentId',verifyToken,likeComment);
 router.put('/editComment/:commentId',verifyToken,editComment);
 router.delete('/deleteComment/:commentId',verifyToken,deleteComment);
-router.get('/getComment',verifyToken,getComment)
+router.get('/getComment',getComment)
 
 export default router;

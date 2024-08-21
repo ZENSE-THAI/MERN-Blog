@@ -33,10 +33,6 @@ export const createComment = async(req,res,next) => {
 
 export const getComment = async(req,res,next) => {
 
-    if(!req.user.isAdmin){
-        return next(errorHandler(403,'Your are not allowed to create a post'));
-    }
-
     try {
         const currentPage = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 9;

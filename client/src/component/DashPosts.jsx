@@ -105,12 +105,12 @@ export const DashPosts = () => {
         </div>
           <Table hoverable>
             <Table.Head>
-              <Table.HeadCell>Date Updated</Table.HeadCell>
-              <Table.HeadCell>Post Image</Table.HeadCell>
-              <Table.HeadCell>Post Title</Table.HeadCell>
-              <Table.HeadCell>Category</Table.HeadCell>
-              <Table.HeadCell>Delete</Table.HeadCell>
-              <Table.HeadCell>Edit</Table.HeadCell>
+              <Table.HeadCell className="bg-gray-200">Date Updated</Table.HeadCell>
+              <Table.HeadCell className="bg-gray-200">Post Image</Table.HeadCell>
+              <Table.HeadCell className="bg-gray-200">Post Title</Table.HeadCell>
+              <Table.HeadCell className="bg-gray-200">Category</Table.HeadCell>
+              <Table.HeadCell className="bg-gray-200">Delete</Table.HeadCell>
+              <Table.HeadCell className="bg-gray-200">Edit</Table.HeadCell>
             </Table.Head>
             <Table.Body>
               {userPost.map((post) => (
@@ -157,6 +157,7 @@ export const DashPosts = () => {
               </div>
             )
           }
+          
         </>
       ) : (
         <div className="w-full flex flex-col justify-center items-center">

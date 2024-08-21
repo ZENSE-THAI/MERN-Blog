@@ -5,6 +5,7 @@ import { HiArrowSmRight, HiDocumentText, HiUser , HiUserGroup } from 'react-icon
 import { useDispatch ,useSelector } from 'react-redux';
 import { signoutStart,signoutSuccess,signoutFailure } from '../redux/user/userSlice.js'
 import { GoCommentDiscussion } from "react-icons/go";
+import { RiDashboard3Line } from "react-icons/ri";
 
 
 export const DashSidebar = () => {
@@ -42,6 +43,13 @@ export const DashSidebar = () => {
     <Sidebar className='w-full md:w-56 '>
         <Sidebar.Items>
             <Sidebar.ItemGroup className='flex flex-col gap-1'>
+                    {currentUser.isAdmin && (
+                      <>
+                        <Sidebar.Item active={tab === 'dashboard' || !tab} as={Link} to='/dashboard?tab=dashboard' icon={RiDashboard3Line}  className='cursor-pointer'>
+                          Dashboard
+                        </Sidebar.Item>
+                      </>
+                    )}
                     <Sidebar.Item 
                       active={tab === 'profile'} 
                       as={Link} 

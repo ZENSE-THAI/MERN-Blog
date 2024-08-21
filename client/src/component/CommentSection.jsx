@@ -231,19 +231,21 @@ export const CommentSection = ({ postId }) => {
                             <p>{comments.length}</p>
                         </div>
                     </div>
-
-                    {comments.map((comment) => (
-                        <Comment 
-                            key={comment._id || comment.id} 
-                            currentUser={currentUser} 
-                            comment={comment}  
-                            onLike={handleLike}
-                            onEdit={handleEdit}
-                            onDelete={(commentId) => {
-                                confirmDelete(commentId);
-                            }}
-                        />
-                    ))}
+                   <div className=" scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 
+          dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-600 max-h-96 overflow-y-auto">
+                        {comments.map((comment) => (
+                                <Comment 
+                                    key={comment._id || comment.id} 
+                                    currentUser={currentUser} 
+                                    comment={comment}  
+                                    onLike={handleLike}
+                                    onEdit={handleEdit}
+                                    onDelete={(commentId) => {
+                                        confirmDelete(commentId);
+                                    }}
+                                />
+                            ))}
+                   </div>
                 </>
             )}
         </div>

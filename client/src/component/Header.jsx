@@ -84,18 +84,27 @@ export const Header = () => {
               <span className='text-sm block'>@{currentUser.username}</span>
               <span className='text-sm block font-semibold truncate'>{currentUser.email}</span>
             </Dropdown.Header>
-            <Link to={'/dashboard?tab=profile'}>
-              <Dropdown.Item>
-                Profile
-              </Dropdown.Item>
-            </Link>
+            
             {currentUser.isAdmin ? (
+              <>
+              <Link to={'/dashboard?tab=dashboard'}>
+                <Dropdown.Item>
+                  Dashboard
+                </Dropdown.Item>
+              </Link>
               <Link to={'/create-post'}>
                 <Dropdown.Item>
                   Create Post
                 </Dropdown.Item>
               </Link>
-            ) : (null)}
+            </>
+            ) : (
+              <Link to={'/dashboard?tab=profile'}>
+                <Dropdown.Item>
+                  Profile
+                </Dropdown.Item>
+              </Link>
+            )}
             {/* <Link to={'/dashboard?tab=profile'}>
               <Dropdown.Item>
                 Dashboard

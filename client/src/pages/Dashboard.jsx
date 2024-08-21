@@ -7,6 +7,7 @@ import { UpdatePost } from '../pages/UpdatePost.jsx';
 import {CreatePost} from '../pages/CreatePost.jsx';
 import { DashUsers } from '../component/DashUser.jsx';
 import { DashComments } from '../component/DashComments.jsx';
+import { DashboardComp } from '../component/DashboardComp.jsx';
 
 
 
@@ -50,6 +51,9 @@ export const Dashboard = () => {
         {tab === 'user' && <DashUsers />}
         {/* comments */}
         {tab === 'comments' && <DashComments />}
+         {/* dashboard */}
+         {(tab === 'dashboard' || tab === '') && <DashboardComp />}
+
       </div>
     </div>
   );
