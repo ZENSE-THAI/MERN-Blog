@@ -15,9 +15,11 @@ export const PostCard = ({ post }) => {
         />
       </Link>
       <div className='px-5 py-3 flex flex-col gap-3'>
+      <Link to={`/post/${post.slug}`}>
         <p className='line-clamp-1 sm:line-clamp-2 text-lg font-semibold cursor-pointer hover:underline'>
           {post.title}
         </p>
+      </Link>
         <div className="">
           {
             category.map((categoryItem, index) => (

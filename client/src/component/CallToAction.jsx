@@ -4,7 +4,7 @@ export const CallToAction = () => {
     const url = 'https://gomycode.com/wp-content/uploads/2023/09/Why-Is-JS-So-Popular-2048x1152.jpg';
 
     return (
-        <div className="flex flex-col sm:flex-row justify-center items-center p-3 border border-teal-500 rounded-tl-3xl rounded-br-3xl text-center">
+        <div className="flex flex-col sm:flex-row justify-center items-center p-3 border border-blue-500 rounded-tl-3xl rounded-br-3xl text-center">
             <div className="flex-1 flex flex-col justify-center items-center p-7">
                 <h1 className="font-semibold text-xl lg:text-2xl">Welcome&apos;s to Call to Action</h1>
                 <p className="text-sm text-gray-500 my-2">
